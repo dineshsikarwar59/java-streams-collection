@@ -34,6 +34,10 @@ public class PredefindElementList {
 		System.out.println("Customize Sorting:"+wrapperList);
 		//Customize Sorting:[8, 7, 6, 5, 3, 2]
 		
+		//return max number in list
+		Integer max=Collections.max(wrapperList);
+		System.out.println("Max Number:"+max);
+		
 	}
 
 }
