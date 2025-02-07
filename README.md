@@ -1,5 +1,6 @@
 # java-streams-collection
 Sorting-List-Predefind-Objects-(String-Wrapper(Integer))
+
 Default Sorting order
 
 		List<String> list=Arrays.asList("Z","A","M","D","K","S");
