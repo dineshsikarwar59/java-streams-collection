@@ -10,6 +10,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+/*
+ * Intermediate operation with string and wrapper objects
+ */
 public class IntermediateOperationsList {
 	public static void main(String[] args) {
 		List<String> stringList=Arrays.asList("V","M","K","A","L","U","A","K");
