@@ -127,6 +127,7 @@ Q.14 Find duplicate elements
 
 
 Q.15 Find longest string in a list
+
     List<String> words = Arrays.asList("Java", "SpringBoot", "Microservices");
     Optional<String> longestString = words.stream().max(Comparator.comparingInt(String::length));
     longestString.ifPresent(System.out::println);
@@ -146,10 +147,12 @@ Map<String, Optional<Employee>> highestSalarydepartmentWise = employeeDept.strea
     System.out.println(highestSalarydepartmentWise);
 
 Q.17 Find highest salary for employee
+
     Employee highestSalaryEmp = employeeDept.stream().max((e1, e2) -> e1.getSallary().compareTo(e2.getSallary())).orElse(null);
     System.out.println(highestSalaryEmp);
 
 Q.17. Find  highest salary
+
     Double highestSalary = employeeDept.stream().mapToDouble(Employee::getSallary).max().getAsDouble();
     System.out.println(highestSalary);
 
