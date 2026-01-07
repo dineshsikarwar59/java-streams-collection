@@ -145,111 +145,105 @@ Q.17. Find department-wise highest salary employee
 Map<String, Optional<Employee>> highestSalarydepartmentWise = employeeDept.stream().collect(Collectors.groupingBy(Employee::getDepartment,Collectors.maxBy(Comparator.comparingDouble(Employee::getSallary))));
     System.out.println(highestSalarydepartmentWise);
 
-    // 18. Find highest salary for employee
-    Employee highestSalaryEmp = employeeDept.stream()
-        .max((e1, e2) -> e1.getSallary().compareTo(e2.getSallary())).orElse(null);
+Q.17 Find highest salary for employee
+    Employee highestSalaryEmp = employeeDept.stream().max((e1, e2) -> e1.getSallary().compareTo(e2.getSallary())).orElse(null);
     System.out.println(highestSalaryEmp);
 
-    // 17. Find department-wise highest salary
-    Double highestSalary =
-        employeeDept.stream().mapToDouble(Employee::getSallary).max().getAsDouble();
+Q.17. Find  highest salary
+    Double highestSalary = employeeDept.stream().mapToDouble(Employee::getSallary).max().getAsDouble();
     System.out.println(highestSalary);
 
-    // 18. Join all names with comma
+Q.18 Join all names with comma 
+
     List<String> namess = Arrays.asList("A", "B", "C");
     String str = namess.stream().collect(Collectors.joining());
     System.out.println(str);
     String str2 = namess.stream().collect(Collectors.joining(","));
     System.out.println(str2);
 
-    // 19. Check if all numbers are positive
+Q.19 Check if all numbers are positive
     List<Integer> positiveNumbers = Arrays.asList(1, 2, 3, -4);
     boolean check = positiveNumbers.stream().allMatch(n -> n > 0);
     System.out.println(check);
 
-    // 20. # a list of lists
-    List<List<Integer>> list1 = Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, 4));
+Q.20. A list of lists
 
+    List<List<Integer>> list1 = Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, 4));
     List<Integer> flattenList = list1.stream().flatMap(List::stream).toList();
     System.out.println(flattenList);
 
-    // Q.21 Given a list of integers, find all non duplicate integers using Java
+Q.21 Given a list of integers, find all non duplicate integers using Java
+
     List<Integer> numbers1 = Arrays.asList(1, 2, 3, 2, 4, 5, 6, 4, 7, 8, 9, 9);
-    List<Integer> unique =
-        numbers1.stream().filter(n -> Collections.frequency(numbers1, n) == 1).toList();
+    List<Integer> unique = numbers1.stream().filter(n -> Collections.frequency(numbers1, n) == 1).toList();
     System.out.println(unique);
 
-    // Q.22 Find the longest string using Java streams.
+Q.22 Find the longest string using Java streams.
+
     List<String> stringsList = Arrays.asList("apple", "banana", "orange", "grape", "kiwi");
-    String longestString1 = stringsList.stream()
-        .max((s1, s2) -> Integer.compare(s1.length(), s2.length())).orElse(null);
+    String longestString1 = stringsList.stream().max((s1, s2) -> Integer.compare(s1.length(), s2.length())).orElse(null);
     System.out.println(longestString1);
 
-    // Q.23 Find average sallary
-    List<Employee> employeeSallary = Arrays.asList(new Employee(101, "Dinesh", "IT", 35000.0),
-        new Employee(102, "Amir", "IT", 25000.0), new Employee(103, "Zoya", "HR", 12000.0),
-        new Employee(104, "Mohan", "HR", 18000.0));
-    Double averageSallary =
-        employeeSallary.stream().mapToDouble(Employee::getSallary).average().getAsDouble();
+Q.23 Find average sallary
+
+    List<Employee> employeeSallary = Arrays.asList(new Employee(101, "Dinesh", "IT", 35000.0),new Employee(102, "Amir", "IT", 25000.0), new Employee(103, "Zoya", "HR", 12000.0),new Employee(104, "Mohan", "HR", 18000.0));
+    Double averageSallary = employeeSallary.stream().mapToDouble(Employee::getSallary).average().getAsDouble();
     System.out.println(averageSallary);
 
-    // Q.24 Find Department with Maximum Number of Employee:
-    List<Employee> numberOfEmployee = Arrays.asList(new Employee(101, "Dinesh", "IT", 35000.0),
-        new Employee(102, "Amir", "IT", 25000.0), new Employee(103, "Zoya", "HR", 12000.0),
-        new Employee(104, "Mohan", "HR", 18000.0), new Employee(105, "Anil", "IT", 30000.0));
-
-    Entry<String, Long> maximumNumberEmployee = numberOfEmployee.stream()
-        .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())).entrySet()
-        .stream().max(Map.Entry.comparingByValue()).orElseGet(null);
+ Q.24 Find Department with Maximum Number of Employee:
+ 
+    List<Employee> numberOfEmployee = Arrays.asList(new Employee(101, "Dinesh", "IT", 35000.0),new Employee(102, "Amir", "IT", 25000.0), new Employee(103, "Zoya", "HR", 12000.0),new Employee(104, "Mohan", "HR", 18000.0), new Employee(105, "Anil", "IT", 30000.0));
+    Entry<String, Long> maximumNumberEmployee = numberOfEmployee.stream().collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())).entrySet()
+    .stream().max(Map.Entry.comparingByValue()).orElseGet(null);
     System.out.println(maximumNumberEmployee);
 
-    // Q.25 Find the Lowest sallary in Each Department:
-    List<Employee> lowestSallaryDepartment =
-        Arrays.asList(new Employee(101, "Dinesh", "IT", 35000.0),
-            new Employee(102, "Amir", "IT", 25000.0), new Employee(103, "Zoya", "HR", 12000.0),
+Q.25 Find the Lowest sallary in Each Department:
+
+    List<Employee> lowestSallaryDepartment = Arrays.asList(new Employee(101, "Dinesh", "IT", 35000.0),new Employee(102, "Amir", "IT", 25000.0), new Employee(103, "Zoya", "HR", 12000.0),
             new Employee(104, "Mohan", "HR", 18000.0), new Employee(105, "Anil", "IT", 30000.0));
-    Map<String, Optional<Employee>> lowestSallaryEachDepartment =
-        lowestSallaryDepartment.stream().collect(Collectors.groupingBy(Employee::getDepartment,
-            Collectors.minBy(Comparator.comparing(Employee::getSallary))));
+    Map<String, Optional<Employee>> lowestSallaryEachDepartment = lowestSallaryDepartment.stream().collect(Collectors.groupingBy(Employee::getDepartment,
+	Collectors.minBy(Comparator.comparing(Employee::getSallary))));
     System.out.println(lowestSallaryEachDepartment);
 
-    // Q.26 Concatenate Strings:Concatenate all strings in a list into a single string.
+Q.26 Concatenate Strings:Concatenate all strings in a list into a single string.
+
     List<String> words1 = Arrays.asList("Stream", "API", "is", "powerful");
     String concatenate = words1.stream().reduce("", (s1, s2) -> s1 + " " + s2).trim();
     System.out.println(concatenate);
 
-    // Q.27 Find the Longest String
+Q.27 Find the Longest String
+
     List<String> words2 = Arrays.asList("Java", "Stream", "API", "Development");
     String longest = words2.stream().max(Comparator.comparing(String::length)).get();
     System.out.println(longest);
 
-    // Q.28 Remove Null Values
+Q.28 Remove Null Values
+
     List<String> words3 = Arrays.asList("Java", null, "Stream", null, "API");
     List<String> nonNullWords = words3.stream().filter(Objects::nonNull).toList();
     System.out.println(nonNullWords);
 
-    // Q.29 Find All Palindromic Strings
+Q.29 Find All Palindromic Strings
+
     List<String> words4 = Arrays.asList("radar", "level", "world", "java");
-    List<String> palindromes = words4.stream()
-        .filter(word -> word.equals(new StringBuilder(word).reverse().toString())).toList();
+    List<String> palindromes = words4.stream().filter(word -> word.equals(new StringBuilder(word).reverse().toString())).toList();
     System.out.println(palindromes);
 
-    // Q.30 Find the Most Frequent Character in a String(finding frequncy and adding in map then
+Q.30 Find the Most Frequent Character in a String(finding frequncy and adding in map then
+
     // getting high frequency)
     String input1 = "success";
-    Map<Character, Long> map1 = input1.chars().mapToObj(ch -> (char) ch)
-        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-    Character character =
-        map1.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).get();
+    Map<Character, Long> map1 = input1.chars().mapToObj(ch -> (char) ch).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    Character character = map1.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).get();
     System.out.println(character);
 
     // second approch in one line
-    Character character2 = input1.chars().mapToObj(ch -> (char) ch)
-        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet()
-        .stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).get();
+    Character character2 = input1.chars().mapToObj(ch -> (char) ch).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet()
+	.stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).get();
     System.out.println(character2);
 
-    // Q31. Find Common Elements Between Two Lists
+Q.31 Find Common Elements Between Two Lists
+
     List<Integer> list11 = Arrays.asList(1, 2, 3, 4, 5);
     List<Integer> list22 = Arrays.asList(3, 4, 5, 6, 7);
     List<Integer> common = list11.stream().filter(list22::contains).toList();
