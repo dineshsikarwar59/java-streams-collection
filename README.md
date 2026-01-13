@@ -251,3 +251,117 @@ Q.31 Find Common Elements Between Two Lists
     List<Integer> list22 = Arrays.asList(3, 4, 5, 6, 7);
     List<Integer> common = list11.stream().filter(list22::contains).toList();
     System.out.println(common);
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Q.1 Find the longest string in a list of strings using Java streams:
+ 
+    List<String> strings = Arrays.asList("apple", "banana", "cherry", "date", "grapefruit");
+    Optional<String> longestSring = strings.stream().max(Comparator.comparingInt(String::length));
+    longestSring.ifPresent(System.out::println);
+
+Q2. Calculate the average age of a list of Person objects using Java streams:
+
+    List<Person> persons =Arrays.asList(new Person("Alice", 25), new Person("Bob", 30), new Person("Charlie", 35));
+    Double averageAge1 = persons.stream().collect(Collectors.averagingLong(Person::getAge));
+    Double averageAge2 = persons.stream().mapToInt(Person::getAge).average().orElse(0);
+    System.out.println(averageAge1);
+    System.out.println(averageAge2);
+
+Q3. Check if a list of integers contains a prime number using Java streams:
+
+Q4. Merge two sorted lists into a single sorted list using Java streams:
+
+    List<Integer> list1 = Arrays.asList(1, 3, 5, 7, 9);
+    List<Integer> list2 = Arrays.asList(2, 4, 6, 8, 10);
+    List<Integer> mergedList = Stream.concat(list1.stream(), list2.stream()).sorted().toList();
+    System.out.println(mergedList);
+
+
+Q5. Find the intersection of two lists using Java streams:
+
+    List<Integer> list11 = Arrays.asList(1, 2, 3, 4, 5);
+    List<Integer> list22 = Arrays.asList(3, 4, 5, 6, 7);
+    // output:[3, 4, 5]
+    List<Integer> intersection = list11.stream().filter(list22::contains).toList();
+    System.out.println(intersection);
+
+Q6. Remove duplicates from a list while preserving the order using Java
+    List<Integer> numbersWithDuplicates = Arrays.asList(1, 2, 3, 2, 4, 1, 5, 6, 5);
+    List<Integer> duplicatesRemoved = numbersWithDuplicates.stream().distinct().toList();
+    System.out.println(duplicatesRemoved);
+
+Q7. Given a list of transactions, find the sum of transaction amounts for each day using Java
+
+    // streams:
+    List<Transaction> transactions = Arrays.asList(new Transaction("2022-01-01", 100),new Transaction("2022-01-01", 200), new Transaction("2022-01-02", 300),
+	new Transaction("2022-01-02", 400), new Transaction("2022-01-03", 500));
+    Map<String, Integer> transactionsMap = transactions.stream().collect(Collectors.groupingBy(Transaction::getDate, Collectors.summingInt(Transaction::getAmount)));
+    System.out.println(transactionsMap);
+
+Q8. Given a list of strings, find the frequency of each word using Java streams:
+
+    List<String> words = Arrays.asList("apple", "banana", "apple", "cherry", "banana", "apple");
+    Map<String, Long> frequency = words.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    System.out.println(frequency);
+
+Q9. Given a list of strings, find the count of each word using Java streams:
+
+    List<String> wordss = Arrays.asList("apple", "banana", "cherry");
+    Map<String, Long> carecterFrequency = wordss.stream().collect(Collectors.toMap(Function.identity(), ch -> ch.chars().count()));
+    // Map<String, Long> carecterFrequency = wordss.stream().collect(Collectors.toMap(str -> str, ch -> ch.chars().count()));
+    System.out.println(carecterFrequency);
+
+Q10. Implement a method to partition a list into two groups based on a predicate using Java
+
+    List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    Map<Boolean, List<Integer>> partition = numbers.stream().collect(Collectors.partitioningBy(n -> n % 2 == 0));
+    System.out.println(partition);
+
+Q.12 remove duplicate from string
+
+    String str = "java is programming language";
+    String uniqueStr = str.chars().distinct().mapToObj(ch -> String.valueOf((char) ch)).collect(Collectors.joining());
+    System.out.println(uniqueStr);
+
+Q.13 Find frequency of each character in a string
+
+    Map<Character, Long> frequency1 = str.chars().mapToObj(ch -> (char) ch).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    // Map<Character, Long> frequency1 = str.chars().mapToObj(ch -> (char) ch).collect(Collectors.groupingBy(ch -> ch, Collectors.counting()));
+    System.out.println(frequency1);
+
+Q.13 Find the first non-repeated character in it using Stream functions?
+
+    String input = "Java articles are Awesome J";
+    Character firstNonRepeated = input.chars().filter(Character::isLetter).mapToObj(ch -> (char) ch)
+        .filter(ch -> input.indexOf(ch) == input.lastIndexOf(ch)).findFirst().orElse(null);
+    System.out.println(firstNonRepeated);
+
+Q.14 Find the non-repeated character in it using Stream functions?
+
+    String nonRepeated = input.chars().mapToObj(ch -> String.valueOf((char) ch)).filter(ch -> input.indexOf(ch) == input.lastIndexOf(ch)).collect(Collectors.joining());
+    System.out.println(nonRepeated);
+
+Q.15 Find the first repeated character in it using Stream functions?
+    
+	String input1 = "Java articles are Awesome";
+    Character repeated = input1.chars().mapToObj(ch -> (char) ch).filter(ch -> input1.indexOf(ch) != input1.lastIndexOf(ch)).findFirst().orElse(null);
+    System.out.println(repeated);
+
+Q.16 Find duplicates Integer duplicates
+
+    List<Integer> myList = Arrays.asList(10, 15, 8, 49, 25, 98, 98, 32, 15);
+    Set<Integer> duplicates = myList.stream().filter(n -> Collections.frequency(myList, n) > 1).collect(Collectors.toSet());
+    System.out.println(duplicates);
+
+Q.17 Find only duplicate elements with its count from the String ArrayList
+
+    List<String> words1 = Arrays.asList("apple", "banana", "apple", "cherry", "banana", "apple");
+    Map<String, Long> duplicateElements =words1.stream().filter(s -> Collections.frequency(words1, s) > 1).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    System.out.println(duplicateElements);
+
+Q.18 Write a program to print the count of each character in a String and preserve order
+
+    String input2 = "string data to count";
+    Map<Character, Long> count =input2.chars().filter(Character::isAlphabetic).mapToObj(ch -> (char) ch).collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()));
+    System.out.println(count);
