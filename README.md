@@ -365,3 +365,22 @@ Q.18 Write a program to print the count of each character in a String and preser
     String input2 = "string data to count";
     Map<Character, Long> count =input2.chars().filter(Character::isAlphabetic).mapToObj(ch -> (char) ch).collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()));
     System.out.println(count);
+
+Q.19 Find Second Largest Number
+
+	int[] arr = {10, 20, 5, 15, 25,25};		
+	//stream approach
+	Integer  secondLargestStream=Arrays.stream(arr).boxed().distinct().sorted(Collections.reverseOrder()).skip(1).findFirst().get();
+	System.out.println("Second Largest Number using Stream: " + secondLargestStream);
+
+Q.20 Find Second Smallest Number
+
+    int[] arr = {10, 20, 5, 15, 25,25};
+	Integer secondSmallest=  Arrays.stream(arr).boxed().distinct().sorted().skip(1).findFirst().get();
+	System.out.println("Second Smallest Number using Stream: " + secondSmallest);
+
+Q3.21 Find the Average of an Array
+
+	int[] arr = {10, 20, 5, 15, 25,25};
+	double average = Arrays.stream(arr).average().getAsDouble();
+	System.out.println("Average of the Array: " + average);
