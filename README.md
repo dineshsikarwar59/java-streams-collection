@@ -143,7 +143,7 @@ Q.17. Find department-wise highest salary employee
     // Map<String, Optional<Employee>>
 
     List<Employee> employeeDept = Arrays.asList(new Employee(101, "Dinesh", "IT", 35000.0),new Employee(102, "Amir", "IT", 25000.0), new Employee(103, "Zoya", "HR", 12000.0),new Employee(104, "Mohan", "HR", 18000.0));
-Map<String, Optional<Employee>> highestSalarydepartmentWise = employeeDept.stream().collect(Collectors.groupingBy(Employee::getDepartment,Collectors.maxBy(Comparator.comparingDouble(Employee::getSallary))));
+    Map<String, Optional<Employee>> highestSalarydepartmentWise = employeeDept.stream().collect(Collectors.groupingBy(Employee::getDepartment,Collectors.maxBy(Comparator.comparingDouble(Employee::getSallary))));
     System.out.println(highestSalarydepartmentWise);
 
 Q.17 Find highest salary for employee
