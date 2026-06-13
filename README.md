@@ -165,6 +165,7 @@ Q.18 Join all names with comma
     System.out.println(str2);
 
 Q.19 Check if all numbers are positive
+
     List<Integer> positiveNumbers = Arrays.asList(1, 2, 3, -4);
     boolean check = positiveNumbers.stream().allMatch(n -> n > 0);
     System.out.println(check);
