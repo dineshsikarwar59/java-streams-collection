@@ -451,5 +451,5 @@ Q.12 Find the Difference of Two Arrays
 	
 Q.13 Find the Duplicate Number in an Array
 
-Set<Integer> duplicate = Arrays.stream(arr).boxed().filter(num -> Collections.frequency(Arrays.stream(arr).boxed().toList(), num) >1).collect(Collectors.toSet());
-System.out.println("Duplicate Number in the Array: " + duplicate);//Duplicate Number in the Array: 25
+    Set<Integer> duplicate = Arrays.stream(arr).boxed().filter(num -> Collections.frequency(Arrays.stream(arr).boxed().toList(), num) > 1).collect(Collectors.toSet());
+	System.out.println("Duplicate Number in the Array: " + duplicate);//Duplicate Number in the Array: 25
