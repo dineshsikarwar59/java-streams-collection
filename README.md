@@ -366,21 +366,90 @@ Q.18 Write a program to print the count of each character in a String and preser
     Map<Character, Long> count =input2.chars().filter(Character::isAlphabetic).mapToObj(ch -> (char) ch).collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()));
     System.out.println(count);
 
-Q.19 Find Second Largest Number
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q.1 Find Second Largest Number
 
 	int[] arr = {10, 20, 5, 15, 25,25};		
 	//stream approach
 	Integer  secondLargestStream=Arrays.stream(arr).boxed().distinct().sorted(Collections.reverseOrder()).skip(1).findFirst().get();
 	System.out.println("Second Largest Number using Stream: " + secondLargestStream);
 
-Q.20 Find Second Smallest Number
+Q.2 Find Second Smallest Number
 
     int[] arr = {10, 20, 5, 15, 25,25};
 	Integer secondSmallest=  Arrays.stream(arr).boxed().distinct().sorted().skip(1).findFirst().get();
 	System.out.println("Second Smallest Number using Stream: " + secondSmallest);
 
-Q3.21 Find the Average of an Array
+Q.3 Find the Average of an Array
 
 	int[] arr = {10, 20, 5, 15, 25,25};
 	double average = Arrays.stream(arr).average().getAsDouble();
 	System.out.println("Average of the Array: " + average);
+
+Q.4 Find the Sum of an Array
+
+    int[] arr = {10, 20, 5, 15, 25,25};
+	int sum = Arrays.stream(arr).sum();
+	System.out.println("Sum of the Array: " + sum);
+
+Q.5 Find the Product of an Array
+
+    int[] arr = {10, 20, 5, 15, 25,25};
+	int product = Arrays.stream(arr).reduce(1, (a, b) -> a * b);
+	System.out.println("Product of the Array: " + product);
+
+Q.6 Find the Maximum and Minimum of an Array
+
+    int[] arr = {10, 20, 5, 15, 25,25};
+	int max = Arrays.stream(arr).max().getAsInt();
+	int min = Arrays.stream(arr).min().getAsInt();
+	System.out.println("Maximum of the Array: " + max);
+	System.out.println("Minimum of the Array: " + min);
+
+Q.7 Find the Count of Even and Odd Numbers in an Array
+
+    int[] arr = {10, 20, 5, 15, 25,25};
+	long evenCount = Arrays.stream(arr).filter(num -> num % 2 == 0).count();
+	System.out.println("Count of Even Numbers: " + evenCount);
+	
+	long oddCount = Arrays.stream(arr).filter(num -> num % 2 != 0).count();
+	System.out.println("Count of Odd Numbers: " + oddCount);
+
+Q.8 Find the Frequency of Each Element in an Array
+
+    int[] arr = {10, 20, 5, 15, 25,25};
+	Map<Integer, Long> frequencyMap = Arrays.stream(arr).boxed()
+				.collect(Collectors.groupingBy(num -> num, Collectors.counting()));
+	System.out.println("Frequency Map: " + frequencyMap);
+		
+Q.9 Find the Unique Elements in an Array
+
+    int[] arr = {10, 20, 5, 15, 25,25};
+	Integer[] uniqueElements = Arrays.stream(arr).boxed().distinct().toArray(Integer[]::new);
+	System.out.println("Unique Elements: " + Arrays.toString(uniqueElements));
+		
+Q.10 Find the Intersection of Two Arrays
+
+	int[] arr1 = { 1, 2, 3, 4, 5 };
+	int[] arr2 = { 4, 5, 6, 7, 8 };
+	Integer[] intersection = Arrays.stream(arr1).boxed().filter(num -> Arrays.stream(arr2).anyMatch(n -> n == num)).toArray(Integer[]::new);
+	System.out.println("Intersection of Two Arrays: " + Arrays.toString(intersection));//Intersection of Two Arrays: [4, 5]
+		
+Q.11 Find the Union of Two Arrays
+
+	Integer[] union = Arrays.stream(arr1).boxed().collect(Collectors.toSet()).stream()
+				.filter(num -> Arrays.stream(arr2).anyMatch(n -> n == num)).toArray(Integer[]::new);
+	System.out.println("Union of Two Arrays: " + Arrays.toString(union));//Union of Two Arrays: [4, 5]
+		
+Q.12 Find the Difference of Two Arrays
+
+	Integer[] difference = Arrays.stream(arr1).boxed().filter(num -> Arrays.stream(arr2).noneMatch(n -> n == num)).toArray(Integer[]::new);
+	System.out.println("Difference of Two Arrays: " + Arrays.toString(difference));//Difference of Two Arrays: [1, 2, 3]
+		
+	
+Q.13 Find the Duplicate Number in an Array
+
+Set<Integer> duplicate = Arrays.stream(arr).boxed().filter(num -> Collections.frequency(Arrays.stream(arr).boxed().toList(), num) >1).collect(Collectors.toSet());
+System.out.println("Duplicate Number in the Array: " + duplicate);//Duplicate Number in the Array: 25
