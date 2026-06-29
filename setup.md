@@ -194,6 +194,9 @@ find max number in array
         List<String> cities=Arrays.asList("Bhopal","Bangalore","Hydrabad","Pune","Dehli","Chanai");
         Map<String,Integer> convertedMap=cities.stream().collect(Collectors.toMap(Function.identity(), String::length));
         System.out.println("Convert a List to Map : "+convertedMap);
+
+		Map<String, Integer> handleDuplicateKeys =namesList.stream().collect(Collectors.toMap(Function.identity(), String::length, (existing, replacement) -> replacement));
+		System.out.println("handle duplicate keys: "+map);
         
 30.Write a program to find the top 3 highest paid employees.
 
