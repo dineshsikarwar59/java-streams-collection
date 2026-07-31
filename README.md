@@ -644,7 +644,7 @@ class Singleton {
 --------------------
 
 
-# How to Override `equals()` Method in Java?
+# Q. How to Override `equals()` Method in Java?
 
 ## Answer
 
