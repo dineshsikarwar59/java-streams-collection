@@ -497,3 +497,480 @@ This prevents external code from changing the internal state of the object.
 
 ------------
 --------------
+
+
+# What is a Singleton Class in Java?
+
+## Answer
+
+A **Singleton class** is a class that allows **only one object (instance)** to be created throughout the application's lifecycle.
+
+It is commonly used for resources that should have only one shared instance, such as:
+- Database connections
+- Logger classes
+- Configuration managers
+- Cache managers
+
+---
+
+## Characteristics of a Singleton Class
+
+- Only one instance of the class exists.
+- Constructor is declared `private` to prevent object creation from outside the class.
+- A `static` instance of the class is maintained.
+- A `public static` method provides access to the single instance.
+
+---
+
+## Example
+
+```java
+class Singleton {
+
+    // Static instance
+    private static Singleton instance = new Singleton();
+
+    // Private constructor
+    private Singleton() {
+    }
+
+    // Public method to access the instance
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1 == s2);
+    }
+}
+```
+
+### Output
+
+```text
+true
+```
+
+---
+
+## Explanation
+
+```java
+private Singleton() { }
+```
+
+- The constructor is **private**, so objects cannot be created using:
+
+```java
+Singleton obj = new Singleton(); // Compilation Error
+```
+
+---
+
+```java
+private static Singleton instance = new Singleton();
+```
+
+- A single object is created when the class is loaded.
+
+---
+
+```java
+public static Singleton getInstance()
+```
+
+- Returns the same object every time it is called.
+
+---
+
+## Lazy Initialization Singleton
+
+The object is created only when it is needed.
+
+```java
+class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() {
+    }
+
+    public static Singleton getInstance() {
+
+        if (instance == null) {
+            instance = new Singleton();
+        }
+
+        return instance;
+    }
+}
+```
+
+### Advantage
+
+- Saves memory by creating the object only when required.
+
+> **Note:** This version is **not thread-safe**. In a multi-threaded environment, synchronization or other techniques (such as double-checked locking or an `enum` singleton) should be used.
+
+---
+
+## Advantages
+
+- Ensures only one object exists.
+- Saves memory.
+- Provides a global access point to the object.
+- Useful for shared resources like logging and configuration.
+
+---
+
+## Key Points
+
+- A Singleton class allows **only one instance** of a class.
+- The constructor is **private**.
+- A **static instance** stores the single object.
+- A **public static `getInstance()`** method returns that object.
+- Singleton is commonly used for **database connections, loggers, caches, and configuration managers**.
+
+
+
+-------------------
+--------------------
+
+
+# How to Override `equals()` Method in Java?
+
+## Answer
+
+The `equals()` method is used to compare the **contents (logical equality)** of two objects.
+
+By default, the `equals()` method (inherited from the `Object` class) compares **object references**. To compare object data, you should override the `equals()` method.
+
+---
+
+## Example Without Overriding `equals()`
+
+```java
+class Employee {
+
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Employee e1 = new Employee(101);
+        Employee e2 = new Employee(101);
+
+        System.out.println(e1.equals(e2));
+    }
+}
+```
+
+### Output
+
+```text
+false
+```
+
+### Explanation
+
+- `e1` and `e2` are different objects.
+- Since `equals()` is not overridden, it compares object references.
+- Therefore, the result is `false`.
+
+---
+
+# Overriding `equals()`
+
+```java
+class Employee {
+
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        Employee other = (Employee) obj;
+
+        return this.id == other.id;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Employee e1 = new Employee(101);
+        Employee e2 = new Employee(101);
+
+        System.out.println(e1.equals(e2));
+    }
+}
+```
+
+### Output
+
+```text
+true
+```
+
+---
+
+## Explanation
+
+### Step 1: Check if both references are the same
+
+```java
+if (this == obj)
+    return true;
+```
+
+If both references point to the same object, they are equal.
+
+---
+
+### Step 2: Check for `null` and class type
+
+```java
+if (obj == null || getClass() != obj.getClass())
+    return false;
+```
+
+- Prevents `NullPointerException`.
+- Ensures both objects are of the same class.
+
+---
+
+### Step 3: Type Casting
+
+```java
+Employee other = (Employee) obj;
+```
+
+Convert the `Object` reference to an `Employee`.
+
+---
+
+### Step 4: Compare Required Fields
+
+```java
+return this.id == other.id;
+```
+
+Objects are considered equal if their `id` values are the same.
+
+---
+
+## Why Override `hashCode()`?
+
+Whenever `equals()` is overridden, **`hashCode()` should also be overridden** to maintain the contract between them, especially when objects are used in collections like `HashMap` or `HashSet`.
+
+### Example
+
+```java
+@Override
+public int hashCode() {
+    return Integer.hashCode(id);
+}
+```
+
+---
+
+## Key Points
+
+- The default `equals()` method compares object references.
+- Override `equals()` to compare object contents.
+- Always check for:
+  - Reference equality (`this == obj`)
+  - `null`
+  - Class type
+  - Required fields
+- Whenever you override `equals()`, also override `hashCode()`.
+
+----------------
+----------------
+
+
+# What is the Contract Between `equals()` and `hashCode()` Methods?
+
+## Answer
+
+The **`equals()` and `hashCode()` methods** are defined in the `Object` class and are closely related.
+
+The contract ensures that objects behave correctly when used in hash-based collections such as `HashMap`, `HashSet`, and `Hashtable`.
+
+---
+
+## Contract Between `equals()` and `hashCode()`
+
+### Rule 1
+
+If two objects are **equal according to `equals()`**, they **must return the same hash code**.
+
+```java
+a.equals(b) == true
+```
+
+Then:
+
+```java
+a.hashCode() == b.hashCode()
+```
+
+---
+
+### Rule 2
+
+If two objects have the **same hash code**, they **are not necessarily equal**.
+
+```java
+a.hashCode() == b.hashCode()
+```
+
+does **not** guarantee:
+
+```java
+a.equals(b) == true
+```
+
+Different objects can have the same hash code. This is called a **hash collision**.
+
+---
+
+### Rule 3
+
+If two objects are **not equal**, they may have:
+
+- Different hash codes ✅ (preferred)
+- The same hash code ✅ (allowed)
+
+---
+
+## Example
+
+```java
+class Employee {
+
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        Employee other = (Employee) obj;
+
+        return this.id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Employee e1 = new Employee(101);
+        Employee e2 = new Employee(101);
+
+        System.out.println(e1.equals(e2));
+        System.out.println(e1.hashCode());
+        System.out.println(e2.hashCode());
+    }
+}
+```
+
+### Output
+
+```text
+true
+101
+101
+```
+
+---
+
+## Why is This Contract Important?
+
+Hash-based collections first use the **hash code** to locate the correct bucket and then use **`equals()`** to identify the exact object.
+
+### Example
+
+```java
+HashSet<Employee> set = new HashSet<>();
+
+set.add(new Employee(101));
+set.add(new Employee(101));
+
+System.out.println(set.size());
+```
+
+### With Proper `equals()` and `hashCode()`
+
+Output:
+
+```text
+1
+```
+
+### Without Overriding `hashCode()`
+
+Output:
+
+```text
+2
+```
+
+The `HashSet` treats them as different objects because their hash codes differ.
+
+---
+
+## Comparison
+
+| `equals()` | `hashCode()` |
+|------------|--------------|
+| Compares object contents | Returns an integer hash value |
+| Used to check logical equality | Used for fast searching in hash-based collections |
+| Returns `boolean` | Returns `int` |
+
+---
+
+## Key Points
+
+- If two objects are **equal**, they **must have the same hash code**.
+- If two objects have the **same hash code**, they **may or may not be equal**.
+- Always override **`hashCode()`** whenever you override **`equals()`**.
+- Following this contract ensures correct behavior in collections like **`HashMap`**, **`HashSet`**, and **`Hashtable`**.
