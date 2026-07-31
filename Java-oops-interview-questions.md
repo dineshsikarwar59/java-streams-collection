@@ -2416,3 +2416,681 @@ Benefits:
 - Java 9 added private helper methods.
 - Java 17 added sealed interfaces.
 - Java 21 continues these features without major interface changes.
+
+
+
+-----------------
+-----------------
+
+
+# What is the Difference Between Instance Variable and Static Variable?
+
+## Answer
+
+In Java, **instance variables** belong to an object, whereas **static variables** belong to the class. Every object gets its own copy of an instance variable, while all objects share a single copy of a static variable.
+
+---
+
+## Comparison Table
+
+| Feature | Instance Variable | Static Variable |
+|---------|-------------------|-----------------|
+| Belongs To | Object (Instance) | Class |
+| Memory Allocation | Created when an object is created | Created once when the class is loaded |
+| Number of Copies | One copy per object | One shared copy for all objects |
+| Access | Using object reference | Using class name (recommended) |
+| Keyword | No keyword required | `static` |
+| Memory Usage | More (one copy per object) | Less (single shared copy) |
+
+---
+
+## 1. Instance Variable
+
+An **instance variable** is declared inside a class but outside methods **without the `static` keyword**.
+
+### Example
+
+```java
+class Employee {
+
+    String name; // Instance variable
+
+    Employee(String name) {
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Employee e1 = new Employee("Alice");
+        Employee e2 = new Employee("Bob");
+
+        System.out.println(e1.name);
+        System.out.println(e2.name);
+    }
+}
+```
+
+### Output
+
+```text
+Alice
+Bob
+```
+
+### Explanation
+
+- Each object has its own copy of the `name` variable.
+- Changing one object's value does not affect the other.
+
+---
+
+## 2. Static Variable
+
+A **static variable** is declared using the `static` keyword.
+
+It belongs to the class, and all objects share the same variable.
+
+### Example
+
+```java
+class Employee {
+
+    static String company = "ABC Ltd";
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        System.out.println(Employee.company);
+    }
+}
+```
+
+### Output
+
+```text
+ABC Ltd
+```
+
+---
+
+## Example Showing Shared Static Variable
+
+```java
+class Employee {
+
+    static String company = "ABC Ltd";
+    String name;
+
+    Employee(String name) {
+        this.name = name;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Employee e1 = new Employee("Alice");
+        Employee e2 = new Employee("Bob");
+
+        Employee.company = "XYZ Ltd";
+
+        System.out.println(e1.company);
+        System.out.println(e2.company);
+    }
+}
+```
+
+### Output
+
+```text
+XYZ Ltd
+XYZ Ltd
+```
+
+### Explanation
+
+- The `company` variable is shared by all objects.
+- Updating it once changes the value for every object.
+
+---
+
+## Key Differences
+
+| Instance Variable | Static Variable |
+|-------------------|-----------------|
+| Belongs to an object | Belongs to the class |
+| Separate copy for each object | Single shared copy |
+| Accessed using object reference | Accessed using class name |
+| Stores object-specific data | Stores common data shared by all objects |
+
+---
+
+## Key Points
+
+- **Instance variables** store data unique to each object.
+- **Static variables** store data common to all objects of a class.
+- Static variables are created only once when the class is loaded.
+- Use **instance variables** for object-specific properties (e.g., `name`, `age`).
+- Use **static variables** for shared properties (e.g., `companyName`, `counter`, `PI`).
+
+
+---------------
+----------------
+
+
+# What is the Difference Between Instance Block and Static Block?
+
+## Answer
+
+In Java, both **instance blocks** and **static blocks** are used to initialize data, but they differ in **when they are executed** and **what they initialize**.
+
+---
+
+## Comparison Table
+
+| Feature | Instance Block | Static Block |
+|---------|----------------|--------------|
+| Keyword | No keyword | `static` |
+| Executes | Every time an object is created | Only once when the class is loaded |
+| Purpose | Initializes instance variables | Initializes static variables |
+| Number of Executions | Once per object | Once per class |
+| Access | Can access instance and static members | Can access only static members directly |
+
+---
+
+## 1. Instance Block
+
+An **instance block** is executed **every time an object is created**, before the constructor.
+
+### Example
+
+```java
+class Employee {
+
+    {
+        System.out.println("Instance Block Executed");
+    }
+
+    Employee() {
+        System.out.println("Constructor Executed");
+    }
+
+    public static void main(String[] args) {
+        new Employee();
+        new Employee();
+    }
+}
+```
+
+### Output
+
+```text
+Instance Block Executed
+Constructor Executed
+Instance Block Executed
+Constructor Executed
+```
+
+### Explanation
+
+- The instance block runs before the constructor.
+- It executes once for each object created.
+
+---
+
+## 2. Static Block
+
+A **static block** is executed **only once** when the class is loaded into memory.
+
+### Example
+
+```java
+class Employee {
+
+    static {
+        System.out.println("Static Block Executed");
+    }
+
+    Employee() {
+        System.out.println("Constructor Executed");
+    }
+
+    public static void main(String[] args) {
+        new Employee();
+        new Employee();
+    }
+}
+```
+
+### Output
+
+```text
+Static Block Executed
+Constructor Executed
+Constructor Executed
+```
+
+### Explanation
+
+- The static block executes only once when the class is loaded.
+- It does not execute again when new objects are created.
+
+---
+
+## Execution Order
+
+When a class is loaded and an object is created, the execution order is:
+
+1. Static Block
+2. Instance Block
+3. Constructor
+
+### Example
+
+```java
+class Demo {
+
+    static {
+        System.out.println("Static Block");
+    }
+
+    {
+        System.out.println("Instance Block");
+    }
+
+    Demo() {
+        System.out.println("Constructor");
+    }
+
+    public static void main(String[] args) {
+        new Demo();
+    }
+}
+```
+
+### Output
+
+```text
+Static Block
+Instance Block
+Constructor
+```
+
+---
+
+## When to Use?
+
+### Instance Block
+
+- Initialize instance variables.
+- Execute common code before every constructor.
+
+### Static Block
+
+- Initialize static variables.
+- Load configuration or resources once when the class is loaded.
+
+---
+
+## Key Points
+
+- **Instance Block** executes every time an object is created.
+- **Static Block** executes only once when the class is loaded.
+- Static blocks are executed before instance blocks.
+- Constructors are executed after instance blocks.
+- Static blocks cannot directly access instance variables or methods.
+
+
+-----------------------
+-----------------------
+
+
+# What is the Difference Between Normal Method and Static Method?
+
+## Answer
+
+In Java, a **normal method (instance method)** belongs to an object, whereas a **static method** belongs to the class.
+
+A normal method requires an object to be called, while a static method can be called directly using the class name.
+
+---
+
+## Comparison Table
+
+| Feature | Normal Method (Instance Method) | Static Method |
+|---------|----------------------------------|---------------|
+| Belongs To | Object (Instance) | Class |
+| Keyword | No keyword | `static` |
+| Object Required | ✅ Yes | ❌ No |
+| Access | Using object reference | Using class name (recommended) |
+| Can Access Instance Variables | ✅ Yes | ❌ No (directly) |
+| Can Access Static Variables | ✅ Yes | ✅ Yes |
+| Method Overriding | ✅ Supported | ❌ Not supported (method hiding occurs) |
+
+---
+
+## 1. Normal Method (Instance Method)
+
+A normal method is declared without the `static` keyword and belongs to an object.
+
+### Example
+
+```java
+class Employee {
+
+    void display() {
+        System.out.println("Instance Method");
+    }
+
+    public static void main(String[] args) {
+
+        Employee emp = new Employee();
+        emp.display();
+    }
+}
+```
+
+### Output
+
+```text
+Instance Method
+```
+
+### Explanation
+
+- An object must be created before calling the method.
+- It can directly access both instance and static members.
+
+---
+
+## 2. Static Method
+
+A static method is declared using the `static` keyword and belongs to the class.
+
+### Example
+
+```java
+class Employee {
+
+    static void display() {
+        System.out.println("Static Method");
+    }
+
+    public static void main(String[] args) {
+
+        Employee.display();
+    }
+}
+```
+
+### Output
+
+```text
+Static Method
+```
+
+### Explanation
+
+- No object is required to call a static method.
+- It is accessed using the class name.
+
+---
+
+## Accessing Variables
+
+```java
+class Demo {
+
+    int x = 10;
+    static int y = 20;
+
+    void normalMethod() {
+        System.out.println(x); // Instance variable
+        System.out.println(y); // Static variable
+    }
+
+    static void staticMethod() {
+        // System.out.println(x); // Compilation Error
+        System.out.println(y);   // Static variable
+    }
+}
+```
+
+### Explanation
+
+- A normal method can directly access both instance and static variables.
+- A static method can directly access only static variables and methods.
+
+---
+
+## When to Use?
+
+### Normal Method
+
+- When the method depends on object-specific data.
+- Example: `deposit()`, `withdraw()`, `getName()`.
+
+### Static Method
+
+- When the method does not depend on object state.
+- Example: utility methods like `Math.sqrt()`, `Integer.parseInt()`, or helper methods.
+
+---
+
+## Key Differences
+
+| Normal Method | Static Method |
+|---------------|---------------|
+| Belongs to an object | Belongs to the class |
+| Requires an object to call | No object required |
+| Can access instance and static members | Can directly access only static members |
+| Supports runtime polymorphism (method overriding) | Does not support method overriding (method hiding) |
+
+---
+
+## Key Points
+
+- **Normal methods** operate on object-specific data.
+- **Static methods** operate on class-level data.
+- Call normal methods using an object.
+- Call static methods using the class name.
+- The `main()` method is `static` because the JVM invokes it before creating any objects.
+
+
+
+
+------------------
+------------------
+
+
+
+# What are Local, Instance, and Static Variables in Java?
+
+## Answer
+
+In Java, variables are classified based on **where they are declared** and **their lifetime**. The three main types are:
+
+1. Local Variable
+2. Instance Variable
+3. Static Variable
+
+---
+
+## Comparison Table
+
+| Feature | Local Variable | Instance Variable | Static Variable |
+|---------|----------------|-------------------|-----------------|
+| Declared In | Inside a method, constructor, or block | Inside a class, outside methods | Inside a class with the `static` keyword |
+| Belongs To | Method | Object (Instance) | Class |
+| Memory Allocation | When the method is called | When an object is created | When the class is loaded |
+| Lifetime | Until the method finishes | Until the object is destroyed | Until the program ends or class is unloaded |
+| Default Value | ❌ No | ✅ Yes | ✅ Yes |
+| Access | Only within the method | Throughout the object | Using the class name |
+
+---
+
+# 1. Local Variable
+
+A **local variable** is declared inside a method, constructor, or block. It can only be accessed within that scope.
+
+### Example
+
+```java
+public class Demo {
+
+    void display() {
+        int age = 25; // Local variable
+        System.out.println(age);
+    }
+
+    public static void main(String[] args) {
+        Demo obj = new Demo();
+        obj.display();
+    }
+}
+```
+
+### Output
+
+```text
+25
+```
+
+### Characteristics
+
+- Declared inside methods, constructors, or blocks.
+- No default value; it must be initialized before use.
+- Exists only while the method is executing.
+
+---
+
+# 2. Instance Variable
+
+An **instance variable** is declared inside a class but outside methods **without the `static` keyword**.
+
+Each object has its own copy of an instance variable.
+
+### Example
+
+```java
+class Employee {
+
+    String name = "Alice"; // Instance variable
+
+    public static void main(String[] args) {
+
+        Employee emp = new Employee();
+
+        System.out.println(emp.name);
+    }
+}
+```
+
+### Output
+
+```text
+Alice
+```
+
+### Characteristics
+
+- Belongs to an object.
+- Each object gets a separate copy.
+- Has a default value if not initialized.
+
+---
+
+# 3. Static Variable
+
+A **static variable** is declared using the `static` keyword.
+
+It belongs to the class, and all objects share the same variable.
+
+### Example
+
+```java
+class Employee {
+
+    static String company = "ABC Ltd";
+
+    public static void main(String[] args) {
+
+        System.out.println(Employee.company);
+    }
+}
+```
+
+### Output
+
+```text
+ABC Ltd
+```
+
+### Characteristics
+
+- Belongs to the class.
+- Only one copy exists regardless of the number of objects.
+- Shared by all objects of the class.
+- Has a default value if not initialized.
+
+---
+
+## Complete Example
+
+```java
+class Employee {
+
+    static String company = "ABC Ltd"; // Static variable
+    String name = "Alice";             // Instance variable
+
+    void display() {
+        int age = 25;                  // Local variable
+
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Company: " + company);
+    }
+
+    public static void main(String[] args) {
+
+        Employee emp = new Employee();
+        emp.display();
+    }
+}
+```
+
+### Output
+
+```text
+Name: Alice
+Age: 25
+Company: ABC Ltd
+```
+
+---
+
+## Key Differences
+
+| Local Variable | Instance Variable | Static Variable |
+|----------------|-------------------|-----------------|
+| Exists only inside a method | Belongs to an object | Belongs to the class |
+| No default value | Default value available | Default value available |
+| Created when the method is called | Created with each object | Created once when the class is loaded |
+| Cannot use access modifiers | Can use access modifiers | Can use access modifiers |
+
+---
+
+## Key Points
+
+- **Local Variable** → Declared inside methods; exists only during method execution.
+- **Instance Variable** → Belongs to each object; every object has its own copy.
+- **Static Variable** → Belongs to the class; shared by all objects.
+- Local variables **must be initialized** before use, while instance and static variables receive **default values** automatically.
+
+
+----------------
+---------------
